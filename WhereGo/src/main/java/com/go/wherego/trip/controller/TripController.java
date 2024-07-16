@@ -41,6 +41,9 @@ public class TripController {
 	
 	@Autowired
 	private TripService tripService;
+	
+	@Autowired
+	private ReviewService reviewService;
 
 	
 	//메인 페이지로 이동
@@ -509,7 +512,7 @@ public class TripController {
 	    String touristData;
 	    touristData = new TravelMapService().getTouristDataByKeyword(keyword);
 	    
-	    ArrayList<Review> rList=null;
+	    ArrayList<Review> rList=reviewService.searchReview(keyword);
 			
 		mv.addObject("touristData", touristData);
 		mv.addObject("mapX", mapXDouble);
