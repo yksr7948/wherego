@@ -128,6 +128,8 @@ button:hover{
 }
 </style>
 <!-- Include jQuery library -->
+<script src="https://cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 function checkEmail() {
@@ -202,8 +204,10 @@ function changePassword() {
 				//console.log(result);
 				if (result=="NNNNY") {
 					alertify.alert('<img src="resources/img/removebg-preview.png" style="width: 30px;">' ,"비밀번호 변경완료!!");
-					location.href="login.me";
-				} else if(result=="NNNNN1"){
+					setTimeout(function() {
+				        location.href = "nlogin.me";
+				    }, 2000); 
+				} else if(result=="NNNNN"){
 					alertify.alert('<img src="resources/img/removebg-preview.png" style="width: 30px;">' ,"비밀번호 가 같지 않습니다!!");
 				}else {
 					alertify.alert('<img src="resources/img/removebg-preview.png" style="width: 30px;">' ,"비밀번호 변경실패!!");

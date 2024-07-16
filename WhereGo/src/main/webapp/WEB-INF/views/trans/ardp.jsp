@@ -292,7 +292,9 @@ $(function() {
 					success : function(data) {
 						var items = data;
 						console.log("확인성공");
-						
+						if(items==0){
+							console.log(items);
+						}
 						var str = "";
 						for (var i = 0; i < items.length; i++) {
 

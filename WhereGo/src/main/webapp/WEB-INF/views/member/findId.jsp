@@ -64,6 +64,8 @@
     
 </style>
 <!-- Include jQuery library -->
+<script src="https://cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     function findIdByEmail() {
@@ -78,8 +80,10 @@
             success: function(findId) {
                 if (findId == null || findId.trim() === "") { // Check if findId is null or empty string
                 	alertify.alert('<img src="resources/img/removebg-preview.png" style="width: 30px;">',"등록된 아이디가 없습니다.");
-                } else {
-                	alertify.alert('<img src="resources/img/removebg-preview.png" style="width: 30px;">',"회원님의 아이디는 " + findId + "입니다.");
+                } else if(findId.length>40){
+                	alertify.alert('<img src="resources/img/removebg-preview.png" style="width: 30px;">',"소셜 로그인 회원입니다");
+                }else{
+                	alertify.alert('<img src="resources/img/removebg-preview.png" style="width: 30px;">',"회원님의 아이디는"+findId+"입니다");
                 }
             },
             error: function() {

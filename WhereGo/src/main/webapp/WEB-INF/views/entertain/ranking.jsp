@@ -143,8 +143,7 @@ main {
 					</h2>
 					<a class="rank-button mbti-btn" data-index="${status.index}"
 						data-toggle="modal" data-target="#mbtiForm">mbti</a> 
-						
-						<a href="" class="rank-button" >해시태그</a> 
+
 						<a href="" class="rank-button gender-btn" data-index="${status.index}"
 						data-toggle="modal" data-target="#genderForm">성별</a> 
 						<a href="" class="rank-button age-btn" data-index="${status.index}"
