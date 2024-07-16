@@ -105,6 +105,7 @@ color:white;
 .paging-select{
 	background-color:#333;
 	color:#fff;
+	font-weight:800;
 }
 #departDate{
 	width:150px;
@@ -313,7 +314,7 @@ color:white;
 					success : function(result){
 						var count=$(result).find('totalCount').text();
 						if(count=="0"){
-							alert("검색된 결과가 없습니다.");
+							alertify.alert('<img src="resources/img/removebg-preview.png" style="width: 30px;">' ,"검색된 결과가 없습니다.");
 						} else {
 						$("#depart").text($("#departid").prop("name"));
 						$("#arrive").text($("#arriveid").prop("name"));
@@ -324,16 +325,15 @@ color:white;
 							var dep=$(item).find('depplandtime').text();
 							var arr=$(item).find('arrplandtime').text();
 							var depDate=new Date(dep.substring(0,4),
-												 dep.substring(4,6),
+												(parseInt(dep.substring(4,6))-1),
 												 dep.substring(6,8),
 												 dep.substring(8,10),
 												 dep.substring(10,12));
 							var arrDate=new Date(arr.substring(0,4),
-									 			arr.substring(4,6),
+												(parseInt(arr.substring(4,6))-1),
 									 			arr.substring(6,8),
 									 			arr.substring(8,10),
-									 			arr.substring(10,12));
-							
+									 			arr.substring(10,12));						
 							var travelMin=depDate.getInterval(arrDate);
 							var travelHour=(Math.floor(travelMin/60));
 							travelMin=travelMin-(travelHour*60);
@@ -367,7 +367,6 @@ color:white;
 						
 						$("#stationroute").show();
 						
-						console.log(pageNumber);
 						//페이징 처리
  						updatePagingBar(count, pageNumber);
 					}},
@@ -385,7 +384,6 @@ color:white;
         function updatePagingBar(totalPages, currentPage) {
 		    
         	var pagingBarHtml = '';
-			console.log(currentPage);
 		    var startPage =1;
 
 		    var endPage = Math.floor((totalPages/50)+1);
@@ -403,11 +401,12 @@ color:white;
 
 		
 		$("#search").click(function(){
-			searchTrain();
+			searchTrain(1);
 		});
 		
 		$(document).on("click","button[class=paging]",function(){
 			searchTrain($(this).text());
+			window.scrollTo({ top: 0 }); 
 		});
 		
 		$(document).on("click","button[class=station]",function(){
@@ -454,7 +453,7 @@ color:white;
 
 		const today = new Date();
 		const maxDate = new Date();
-		maxDate.setDate(today.getDate() + 30);
+		maxDate.setDate(today.getDate() + 6);
 		
 		$("#departDate").attr("value",formatDate(today));
 		$("#departDate").attr("min",formatDate(today));

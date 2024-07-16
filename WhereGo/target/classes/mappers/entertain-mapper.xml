@@ -25,7 +25,8 @@
 		<result column="TAG_WORD" property="tagWords"/>
 		<result column="TITLE" property="title"/>	
 		<result column="FIRST_IMAGE2" property="firstImage2"/>
-		<result column="contentId" property="count"/>
+		<result column="CONTENT_ID" property="contentId"/>
+		<result column="cnt" property="count"/>
 	</resultMap>
 	
 	<resultMap type="hashmap" id="mapMbti">
@@ -72,7 +73,8 @@
 						GENDER,
 						TAG_WORD,
 						TITLE,
-						MBTI)
+						MBTI,
+						CONTENTID)
 				 VALUES(
             		 WC_SEQ.NEXTVAL
             	   ,#{userId}
@@ -81,6 +83,7 @@
             	   ,#{tagWords}
             	   ,#{title}
             	   ,#{MBTI}
+            	   ,#{contentId}
             	 )
 	</insert>
 	
