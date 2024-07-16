@@ -22,6 +22,8 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
  <style>
 /* 전체설정 */
 * {
@@ -278,14 +280,7 @@ li {
             </li>
             <li><a href="weather.we">날씨</a></li>
             <li><a href="${pageContext.request.contextPath}/travelMap">지도</a></li>
-            <li><a href="">게시판</a>
-              <div class="submenu">
-                <ul>
-                  <li><a href="review.bo">리뷰</a></li>
-                  <li><a href="#">게시판2</a></li>
-                </ul>
-              </div>
-            </li>
+            <li><a href="review.bo">게시판</a></li>
             <li><a href="planner.pl?userId=${loginUser.userId }">플래너</a>
           </ul>
         </div>
@@ -304,7 +299,7 @@ li {
 					<%-- 로그인 후 --%>				
 					<c:otherwise>
 						<label>${loginUser.userName}님 환영합니다</label> &nbsp;&nbsp; 
-						<a href="mypage.me" class="login-button">마이페이지</a> <a href="logout.me" class="login-button">로그아웃</a>
+						<a href="myinfo.me?userId=${loginUser.userId}" class="login-button">마이페이지</a> <a href="logout.me" class="login-button">로그아웃</a>
 					</c:otherwise>
 				</c:choose>
         <script>

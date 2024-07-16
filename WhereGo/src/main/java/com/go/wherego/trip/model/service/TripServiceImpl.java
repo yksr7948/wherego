@@ -191,4 +191,10 @@ public class TripServiceImpl implements TripService{
 	public int count(HashMap map) {
 		return tripDao.count(sqlSession, map);
 	}
+	
+	@Override
+	public ArrayList<Trip> selectMyTrip(){	
+		return tripDao.selectMyTrip(sqlSession);
+	}
+
 }

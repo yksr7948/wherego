@@ -57,6 +57,7 @@
 			  ,BOARD_DATE
 			  ,BOARD_IMG
 			  ,COUNT
+			  ,COUNTRY
 		FROM REVIEW 
 		WHERE BOARD_NO = #{boardNo}
 		AND STATUS = 'Y'
@@ -68,12 +69,19 @@
 		                 ,BOARD_WRITER
 		                 ,BOARD_CONTENT
 		                 ,BOARD_IMG
+		                 ,COUNT
+		                 ,COUNTRY
+		                 ,BOARD_DATE
 		                 )
         		VALUES (SEQ_BNO.NEXTVAL
                			,#{boardTitle}
                			,#{boardWriter}
                			,#{boardContent}
-               			,#{boardImg})
+               			,#{boardImg}
+               			,0
+               			,#{country}
+               			,SYSDATE
+               			)
 	
 	</insert>
 	
@@ -110,22 +118,25 @@
 						  ,REPLY_WRITER)
            			 VALUES (SEQ_RNO.NEXTVAL
            			 		,#{replyContent}
-           			 		,#{refBno}
+           			 		,#{replyBno}
            			 		,#{replyWriter})
 	</insert>
 	
-	<select id="selectTopList" resultMap="reviewResultSet">
-	<![CDATA[SELECT * 
-		FROM (SELECT BOARD_NO
-		          ,BOARD_TITLE
-		          ,BOARD_WRITER
-		          ,COUNT
-		          ,BOARD_DATE
-		          ,BOARD_IMG
-		    FROM REVIEW
-		    WHERE STATUS='Y'
-		    ORDER BY COUNT DESC)
-		WHERE ROWNUM <=]]> 5
+	<select id="selectMyReview" parameterType="String" resultMap="reviewResultSet">
+		<![CDATA[SELECT BOARD_NO, BOARD_TITLE
+			FROM REVIEW 	
+			WHERE ROWNUM <=]]>5 AND 
+					BOARD_WRITER=#{boardWriter}
+			ORDER BY BOARD_DATE DESC
 	</select>
-
+	
+	<select id="selectMyReply" parameterType="String" resultMap="reviewResultSet">
+		<![CDATA[SELECT BOARD_NO,BOARD_TITLE
+			FROM REVIEW
+			LEFT JOIN REPLY ON REPLY_BNO=BOARD_NO
+			WHERE ROWNUM <=]]>5 AND 
+					REPLY_WRITER=#{replyWriter}
+			ORDER BY BOARD_DATE DESC
+	</select>
+	
 </mapper>

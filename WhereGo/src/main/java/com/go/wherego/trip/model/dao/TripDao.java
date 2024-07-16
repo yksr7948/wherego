@@ -162,4 +162,7 @@ public class TripDao {
 		return sqlSession.selectOne("tripMapper.countByKeyword", map);
 	}
 
+	public ArrayList<Trip> selectMyTrip(SqlSessionTemplate sqlSession){
+		return (ArrayList)sqlSession.selectList("tripMapper.selectMyTrip");
+	}
 }
