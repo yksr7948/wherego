@@ -1,6 +1,9 @@
 package com.go.wherego.member.model.service;
 
+import java.util.ArrayList;
+
 import com.go.wherego.member.model.vo.Member;
+import com.go.wherego.trip.model.vo.Trip;
 
 public interface MemberService {
 
@@ -36,6 +39,10 @@ public interface MemberService {
 	int updatePwd(Member m);
 
 	int checkEmail(String checkEmail);
+
+	int pushProfile(Member m);
+
+	ArrayList<Trip> selectFavor(String userId);
 	
 
 	

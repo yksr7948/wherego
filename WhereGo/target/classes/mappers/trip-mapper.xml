@@ -242,4 +242,10 @@
 		</if>
 		AND TITLE LIKE '%'||#{keyword}||'%'
 	</select>
+	
+	<select id="selectMyTrip" resultMap="tripResultSet">
+	<![CDATA[ SELECT CONTENT_ID,FIRST_IMAGE2,TITLE,ADDR1
+	FROM (SELECT * FROM TRIP ORDER BY dbms_random.random)
+	WHERE ROWNUM<=]]>4 AND (CONTENT_TYPE_ID NOT IN (14, 15, 32, 38, 39))
+	</select>
 </mapper>

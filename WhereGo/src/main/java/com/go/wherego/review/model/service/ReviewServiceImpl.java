@@ -1,6 +1,6 @@
 package com.go.wherego.review.model.service;
 
-import java.util.ArrayList;
+import java.util.*;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class ReviewServiceImpl implements ReviewService {
 	public ArrayList<Review> selectList(ReviewPage pi){return dao.selectList(sqlSession,pi);}
 	
 	@Override
-	public int insertReview(Review rv) {return dao.insertReview(sqlSession,rv);}
+	public int insertReview(Review rv) {System.out.println("리뷰서비스 : "+rv.toString()); return dao.insertReview(sqlSession,rv);}
 	
 	@Override
 	public Review selectReview(int boardNo) {return dao.selectReview(sqlSession,boardNo);}
@@ -47,6 +47,9 @@ public class ReviewServiceImpl implements ReviewService {
 	public ArrayList<ReviewReply> replyList(int boardNo) {return dao.replyList(sqlSession,boardNo);}
 
 	@Override
-	public ArrayList<Review> selectTopList() {return dao.selectTopList(sqlSession);}
-	
+	public ArrayList<Review> selectMyReview(String name) {return dao.selectMyReview(name,sqlSession);}
+
+	@Override
+	public ArrayList<Review> selectMyReply(String rpy) {return dao.selectMyReply(rpy,sqlSession);}
+
 }

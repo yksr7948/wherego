@@ -70,4 +70,5 @@ public interface TripService {
 	//키워드에 맞는 여행지 개수
 	int count(HashMap map);
 	
+	ArrayList<Trip> selectMyTrip();
 }

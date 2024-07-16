@@ -1,6 +1,6 @@
 package com.go.wherego.review.model.vo;
 
-import java.util.Date;
+import java.sql.Date;
 
 import lombok.*;
 

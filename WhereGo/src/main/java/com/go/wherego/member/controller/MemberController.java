@@ -1,6 +1,8 @@
 package com.go.wherego.member.controller;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -19,10 +21,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.go.wherego.member.model.service.MemberService;
 import com.go.wherego.member.model.vo.Member;
+import com.go.wherego.trip.model.service.TripService;
+import com.go.wherego.trip.model.vo.Trip;
 
 
 
@@ -39,7 +44,9 @@ public class MemberController {
 
 	private int mailCheckNum = 0;
 
-	
+	@Autowired
+	private TripService tripService;	
+	//마이페이지의 좋아요한 여행지 이동을 위해 여행지 정보를 받아야함(매퍼도 이하구문)
 	
 //	@GetMapping("loginPage.me")
 //	public String gologin() {
@@ -80,12 +87,6 @@ public class MemberController {
 		
 	}
 	
-	@RequestMapping("nlogin.me")
-	public String nlogin() {
-		return "member/login";
-	}
-	
-	
 	@RequestMapping("logout.me")
 	public String logoutMember(HttpSession session) {
 
@@ -103,18 +104,11 @@ public class MemberController {
 	@PostMapping("insert.me")
 	public String insertMember(Member m, HttpSession session, ModelAndView mv,Model model) {
 		String bcrPwd = bcryptPasswordEncoder.encode(m.getUserPwd());
-		m.setUserPwd(bcrPwd);
-		int result = memberService.insertMember(m);
+		m.setUserPwd(bcrPwd);		
+		memberService.insertMember(m);
+		model.addAttribute("userId",m.getUserId());
+		return "member/additional";
 		
-		if (result > 0) { 
-			session.setAttribute("alertMsg", "회원 가입 성공!");
-			model.addAttribute("userId",m.getUserId());
-			return "member/additional";
-		} else {
-			mv.addObject("errorMsg", "회원 가입 실패");
-
-			return "common/errorPage";
-		}
 	}
 	
 		@ResponseBody
@@ -162,7 +156,7 @@ public class MemberController {
 		
 		
 		@RequestMapping("additional.me")
-		public String addtitionalInfo(String selectedMBTI, String selectedWords,String userId) {
+		public String addtitionalInfo(String selectedMBTI, String selectedWords,String userId, HttpSession session) {
 			System.out.println(selectedMBTI);
 			System.out.println(selectedWords);
 			System.out.println("userId : "+userId);
@@ -171,8 +165,8 @@ public class MemberController {
 			m.setTagWords(selectedWords);
 			memberService.insertMBTI(m);
 			memberService.insertWords(m);
-			
-			return "redirect:/";
+			session.setAttribute("userId", userId);
+			return "member/myProfile";
 		}
 		
 		@GetMapping("findId.me")
@@ -193,12 +187,12 @@ public class MemberController {
 			return "member/findPwd";
 		}
 		
-//		@ResponseBody
-//		@PostMapping("findPwd.me")
-//		public String findPwd(String email) {
-//			
-//			return "";
-//		}
+		@ResponseBody
+		@PostMapping("findPwd.me")
+		public String findPwd(String email) {
+			
+			return "";
+		}
 		
 		
 		@ResponseBody
@@ -291,9 +285,139 @@ public class MemberController {
 			
 		}
 		
-		
-		
-		
-		
-	
+		//내 정보 변경
+				@RequestMapping("mypage.me")
+				public String myPage(String userId) {
+					return "member/myPage";
+				}
+				
+				//마이페이지 - 정상작동
+				@RequestMapping("myinfo.me")
+				public String myInfo(String userId,HttpSession session,Model mi,Model mu) {
+					session.setAttribute("userId", userId);
+					System.out.println("유저 아이디 : "+userId);
+					ArrayList<Trip> myList=tripService.selectMyTrip();
+					ArrayList<Trip> myFavor = memberService.selectFavor(userId);
+					System.out.println("내가 좋아하는 여행지 :"+myFavor);
+					mi.addAttribute("myList",myList);
+					mu.addAttribute("myFavor",myFavor);
+					return "member/myInfo";
+				}
+				
+				//내 프로필 등록 이전 모델
+				@RequestMapping("myProfile.me")
+				public String usemyprofile(String userId, Model model) {
+					model.addAttribute("userId",userId);
+					return "member/myProfile";
+				}
+				
+				//탈퇴
+				@RequestMapping("delete.me")
+				public String deleteMember(String userPwd
+										  ,HttpSession session
+										  ,Model model) {
+					Member loginUser = ((Member)session.getAttribute("loginUser"));
+					String encPwd = loginUser.getUserPwd();
+					String userId = loginUser.getUserId();
+					
+					if(bcryptPasswordEncoder.matches(userPwd, encPwd)) {
+						int result = memberService.deleteMember(userId);
+
+						if(result>0) {
+							session.removeAttribute("loginUser");
+							session.setAttribute("alertMsg", "회원탈퇴가 완료되었습니다.");
+							return "redirect:/";
+						}else {
+							model.addAttribute("errorMsg","회원 탈퇴 실패");
+							return "common/errorPage";
+						}
+					}else {
+						session.setAttribute("alertMsg", "비밀번호 입력 오류");
+						return "redirect:/mypage.me";
+					}
+				}
+				
+				//내 프로필 등록하기
+				@PostMapping("profile.me")
+				public String profileUpload(MultipartFile profile, HttpSession session,String userId) {
+					
+					Member m = memberService.getMemberById(userId);
+					
+					if(!profile.getOriginalFilename().equals("")){
+						String myProfile=saveFile(profile,session);
+						m.setProfile(profile.getOriginalFilename());
+						m.setMyProfile("resources/uploadFiles/profile/"+myProfile);
+					}
+					
+					if(m!=null){
+						session.setAttribute("alertMsg", "회원 가입 성공!");
+						memberService.pushProfile(m);
+						return "main";
+					} else{
+						session.setAttribute("alertMsg", "회원 가입 실패");
+						return "common/errorPage";
+					}
+					
+				}
+
+				
+				@GetMapping("mypage.me")
+				public String memberEnrollForm(HttpSession session) {
+					Member m=(Member) session.getAttribute("loginUser");
+					System.out.println("아이디를 받은 유저 정보 : "+m);
+					return "member/myPage";
+				}
+				
+				//회원정보 수정처리 메소드
+				@PostMapping("mypage.me")
+				public String updateMember(Member m,MultipartFile reprofile ,HttpSession session) {
+					
+				
+					boolean flag = false; 		
+					String deleteProfile = "";		
+					if(!reprofile.getOriginalFilename().equals("")) {
+						if(m.getProfile()!=null) {
+							flag = true;
+							deleteProfile = m.getMyProfile();
+						} 
+						String myProfile = saveFile(reprofile,session);
+						
+						m.setProfile(reprofile.getOriginalFilename());
+						m.setMyProfile("resources/uploadFiles/profile/"+myProfile);
+					}
+					
+					int result=memberService.updateMember(m);
+					System.out.println("업데이트 됐는지 ? : "+result);
+					System.out.println("멤버 값 : "+m);
+					System.out.println("프로필 갱신"+m.getMyProfile());
+					
+					String msg="";
+					if(result>0) {
+						msg="회원 정보 수정이 완료되었습니다.";
+						session.setAttribute("loginUser", m);
+						if(flag) {
+							File f = new File(session.getServletContext().getRealPath(deleteProfile));
+							f.delete();
+						}
+					}else {
+						msg="수정되지 않았습니다.";
+					}
+					
+					session.setAttribute("alertMsg", msg);
+					return "member/myInfo";	
+				}
+				
+				//사진 저장하는 도중 사진 이름 바꾸는 메소드
+				private String saveFile(MultipartFile profile, HttpSession session) {
+					String originName = profile.getOriginalFilename();
+					String currentTime ="myprofile";
+					String ext = originName.substring(originName.lastIndexOf("."));
+					int ranNum = (int)(Math.random()*900000+100000);
+					String myProfile = currentTime+ranNum+ext;
+					String savePath = session.getServletContext().getRealPath("/resources/uploadFiles/profile/");
+					System.out.println("프로필 저장 경로 : "+savePath);
+					try {profile.transferTo(new File(savePath+myProfile));} 
+					catch (IllegalStateException | IOException e) {e.printStackTrace();}
+					return myProfile;
+				}
 }

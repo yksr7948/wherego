@@ -1,9 +1,12 @@
 package com.go.wherego.member.model.dao;
 
+import java.util.ArrayList;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.go.wherego.member.model.vo.Member;
+import com.go.wherego.trip.model.vo.Trip;
 
 //Repository 저장소
 //주로 DB(저장소) 와 관련된 작업을 수행하는 역할로 사용(DAO)
@@ -81,6 +84,12 @@ public class MemberDao {
 	public int checkEmail(SqlSessionTemplate sqlSession, String checkEmail) {
 		// TODO Auto-generated method stub
 		 return sqlSession.selectOne("memberMapper.checkEmail",checkEmail);
+	}
+	public int pushProfile(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.update("memberMapper.pushProfile",m);
+	}
+	public ArrayList<Trip> selectFavor(SqlSessionTemplate sqlSession, String userId) {
+		return (ArrayList)sqlSession.selectList("memberMapper.selectFavor", userId);
 	}
 
 

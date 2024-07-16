@@ -23,6 +23,7 @@ public class ReviewDao {
 	}
 
 	public int insertReview(SqlSessionTemplate sqlSession, Review rv) {
+		System.out.println("리뷰 Dao: "+rv.toString());
 		return sqlSession.insert("reviewMapper.insertReview",rv);
 	}
 
@@ -43,16 +44,19 @@ public class ReviewDao {
 	}
 
 	public int insertReply(SqlSessionTemplate sqlSession, ReviewReply r) {
-		return sqlSession.insert("reviewMapper.insertReview",r);
+		return sqlSession.insert("reviewMapper.insertReply",r);
 	}
 
 	public ArrayList<ReviewReply> replyList(SqlSessionTemplate sqlSession, int boardNo) {
 		return (ArrayList)sqlSession.selectList("reviewMapper.replyList",boardNo);
 	}
-
-	public ArrayList<Review> selectTopList(SqlSessionTemplate sqlSession) {
-		return (ArrayList)sqlSession.selectList("reviewMapper.selectTopList");
+	
+	public ArrayList<Review> selectMyReview(String name, SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("reviewMapper.selectMyReview",name);
 	}
 	
-
+	public ArrayList<Review> selectMyReply(String rpy, SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("reviewMapper.selectMyReply",rpy);
+	}
+	
 }

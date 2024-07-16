@@ -25,6 +25,7 @@ public interface ReviewService {
 
 	ArrayList<ReviewReply> replyList(int boardNo);
 
-	ArrayList<Review> selectTopList();
+	ArrayList<Review> selectMyReview(String name);
 
+	ArrayList<Review> selectMyReply(String rpy);
 }
