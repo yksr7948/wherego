@@ -126,7 +126,7 @@
 	</select>
 	
 	<delete id="deleteSInstant">
-		DELETE FROM INSTANT
+		DELETE FROM SINSTANT
 	</delete>
 	
 </mapper>
