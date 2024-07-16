@@ -304,7 +304,10 @@ $(function() {
 					success : function(data) {
 						var items = data;
 						console.log("확인성공");
-						
+						if (data.length === 0) {
+			                // If data is empty, show alert
+			                alertify.alert('<img src="resources/img/removebg-preview.png" style="width: 30px;">', '해당 노선이 없습니다');
+			            }
 						var str = "";
 						for (var i = 0; i < items.length; i++) {
 
