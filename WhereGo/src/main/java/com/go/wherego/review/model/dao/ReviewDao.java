@@ -59,4 +59,8 @@ public class ReviewDao {
 		return (ArrayList)sqlSession.selectList("reviewMapper.selectMyReply",rpy);
 	}
 	
+	public ArrayList<Review> searchReview(SqlSessionTemplate sqlSession, String keyword) {
+		return (ArrayList)sqlSession.selectList("reviewMapper.searchReview",keyword);
+	}
+	
 }

@@ -28,4 +28,6 @@ public interface ReviewService {
 	ArrayList<Review> selectMyReview(String name);
 
 	ArrayList<Review> selectMyReply(String rpy);
+	
+	ArrayList<Review> searchReview(String keyword);
 }
