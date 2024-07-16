@@ -80,6 +80,12 @@ public class MemberController {
 		
 	}
 	
+	@RequestMapping("nlogin.me")
+	public String nlogin() {
+		return "member/login";
+	}
+	
+	
 	@RequestMapping("logout.me")
 	public String logoutMember(HttpSession session) {
 
@@ -166,7 +172,7 @@ public class MemberController {
 			memberService.insertMBTI(m);
 			memberService.insertWords(m);
 			
-			return "main";
+			return "redirect:/";
 		}
 		
 		@GetMapping("findId.me")
@@ -187,12 +193,12 @@ public class MemberController {
 			return "member/findPwd";
 		}
 		
-		@ResponseBody
-		@PostMapping("findPwd.me")
-		public String findPwd(String email) {
-			
-			return "";
-		}
+//		@ResponseBody
+//		@PostMapping("findPwd.me")
+//		public String findPwd(String email) {
+//			
+//			return "";
+//		}
 		
 		
 		@ResponseBody

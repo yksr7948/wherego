@@ -57,7 +57,7 @@ public class EntertainController {
 	 * Gson().toJson(list)); }
 	 */
 
-	// 가져온 Trip 랜덤으로 섞어서 16개 가져오기
+	// 가져온 Trip 랜덤으로 섞어서 12개 가져오기
 	public static ArrayList<Trip> makeRandom(ArrayList<Trip> list) {
 
 		Random random = new Random();
@@ -121,17 +121,12 @@ public class EntertainController {
 	  @ResponseBody
 	  @PostMapping(value="getMbti.en",produces = "application/json;charset=UTF-8")
 	  public ArrayList<HashMap<String,BigDecimal>> wcInfo(String title, String
-	  contentId, Model model){
-	  
-	  // HashMap resultMap= entertainService.getWcMbti(title);
+	  contentId){
+		  
 	  ArrayList<HashMap<String,BigDecimal>> result =
 	  entertainService.getWcMbti(title); 
 	  System.out.println(result);
-//	  int mbtiCount = entertainService.getMbtiCount(title); //해당 여행지의 이긴 총 횟수 \
-//	  System.out.println(mbtiCount);
-	   
-//	   return resultMap; 
-	   return result; 
+	  return result; 
 	   }
 	 
 	  

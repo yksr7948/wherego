@@ -203,7 +203,7 @@ public class TransController {
 			
 			System.out.println("db에 넣을 리스트 : "+list);
 			
-			int insertResult = transService.insertInstant(list); // 해당 출발지에 대한 도착지 LIST 저장
+			transService.insertInstant(list); // 해당 출발지에 대한 도착지 LIST 저장
 			 
 			
 			
@@ -477,25 +477,6 @@ public class TransController {
 				return arrivalList;
 				
 			}
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
 			
 			
 			//사용자가 찾는 시외버스 시간표 출력
