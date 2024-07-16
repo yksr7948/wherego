@@ -51,5 +51,8 @@ public class ReviewServiceImpl implements ReviewService {
 
 	@Override
 	public ArrayList<Review> selectMyReply(String rpy) {return dao.selectMyReply(rpy,sqlSession);}
+	
+	@Override
+	public ArrayList<Review> searchReview(String keyword) {return dao.searchReview(sqlSession,keyword);}
 
 }

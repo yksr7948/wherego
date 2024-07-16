@@ -139,4 +139,12 @@
 			ORDER BY BOARD_DATE DESC
 	</select>
 	
+	<select id="searchReview" parameterType="string" resultMap="reviewResultSet">
+		SELECT * FROM REVIEW
+		WHERE STATUS='Y'
+		AND (BOARD_TITLE LIKE '%'||#{keyword}||'%' 
+			OR BOARD_CONTENT LIKE '%'||#{keyword}||'%')
+		ORDER BY COUNT DESC
+	</select>
+	
 </mapper>
