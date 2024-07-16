@@ -483,12 +483,12 @@
         	function getHtml(title, mapx, mapy, num, data_date, img){
         	   
         		var div = '<div class="plan-box" data-date="'+data_date+'"data-y="'+mapy+'"data-x="'+mapx+'"data-place="'+title+'"data-planNo="">';
-        		div += '<button class="plan-delete" onclick="planDelete(' + (num - 1) +  ')">&times;</button>'; // 변경: num 대신 (num - 1) 사용
-        		div += '<span class="plan-title">' + num + ". "+ title + '</span>';
-        		div += '<span>시간 : <input class="plan-time" type="time"></span>';
-        		div += '<span>메모 : <input class="plan-intro" type="text"></span>';
-        		div += '<input type="hidden" name="firstimage" class="firstImage" value="'+img+'">';
-        		div += '</div>';
+	        		div += '<button class="plan-delete" onclick="planDelete(' + (num - 1) +  ')">&times;</button>'; // 변경: num 대신 (num - 1) 사용
+	        		div += '<span class="plan-title">' + num + ". "+ title + '</span>';
+	        		div += '<span>시간 : <input class="plan-time" type="time"></span>';
+	        		div += '<span>메모 : <input class="plan-intro" type="text"></span>';
+	        		div += '<input type="hidden" name="firstimage" class="firstImage" value="'+img+'">';
+	        		div += '</div>';
 
         	    return div;
         	}
@@ -506,12 +506,12 @@
         	        markers.splice(index, 1);
         	    }
 
-        	    // 경로 제거
-        	    if (paths[index - 1]) {
+        		// 경로 제거
+        	    if (index > 0 && paths[index - 1]) {
         	        paths[index - 1].setMap(null);
         	        paths.splice(index - 1, 1);
         	    }
-        	    if (paths[index]) {
+        	    if (index < markers.length - 1 && paths[index]) {
         	        paths[index].setMap(null);
         	        paths.splice(index, 1);
         	    }
@@ -527,18 +527,24 @@
         	        $(this).find('button').attr("onclick", btn);
         	    });
 
-        	    // 경로 재설정
+        	    resetPaths();
+        	}
+        	
+        	// 경로 재설정
+        	function resetPaths() {
+        	    paths.forEach(function (path) {
+        	        path.setMap(null);
+        	    });
+
         	    paths = [];
-        	    for (var i = 0; i < markers.length; i++) {
-        	        if (i > 0) {
-        	            var path = new naver.maps.Polyline({
-        	                map: map,
-        	                path: [markers[i - 1].getPosition(), markers[i].getPosition()],
-        	                strokeColor: '#5347AA',
-        	                strokeWeight: 2
-        	            });
-        	            paths.push(path);
-        	        }
+        	    for (var i = 1; i < markers.length; i++) {
+        	        var path = new naver.maps.Polyline({
+        	            map: map,
+        	            path: [markers[i - 1].getPosition(), markers[i].getPosition()],
+        	            strokeColor: '#5347AA',
+        	            strokeWeight: 2
+        	        });
+        	        paths.push(path);
         	    }
         	}
         </script>
