@@ -382,6 +382,11 @@ main {
 			var contentId = $(this).children().first().val();
 			location.href = "tripDetail.tl?contentId="+contentId;
 		});
+		
+		$(".review-search").click(function(){
+			var boardNo=$(this).children().first().val();
+			location.href="detail.bo?boardNo="+boardNo;
+		});
 	})
 	</script>
 </body>
