@@ -27,6 +27,12 @@ public class Member {
 	private String gender;
 	private String status;
 	private String profile;
+	private String MyProfile;
 	private String address;
 	private List<MemberAuth> securityAuthList;
+	
+	private String title;
+	private String firstImage2;
+	private String contentId;
+	private String addr1;
 }

@@ -63,7 +63,7 @@
                         <th>작성자</th>
                         <th>조회수</th>
                         <th>작성일</th>
-                        <th>첨부파일</th>
+                        <th>.</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -80,7 +80,7 @@
 			                        <td>${rv.boardTitle}</td>
 			                        <td>${rv.boardWriter}</td>
 			                        <td>${rv.count}</td>
-			                        <td>${rv.boardDate}</td>
+			                        <td><fmt:formatDate value="${rv.boardDate}" pattern="yyyy-MM-dd" /></td>
 			                        <td>
 			                        	<c:if test="${not empty rv.boardImg}">
 			                        		<img src="${rv.boardImg}" width="200px" height="150px">
@@ -96,6 +96,7 @@
             
             
             <script>
+	            
             	$(function(){
             		$("#boardList tbody>tr").click(function(){
             			var bno =  $(this).children().first().text();

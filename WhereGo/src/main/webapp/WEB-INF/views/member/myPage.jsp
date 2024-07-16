@@ -5,65 +5,147 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+ body {
+        font-family: 'Arial', sans-serif;
+        background-color: #F0F4F8;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        flex-direction: column;
+        text-align: center;
+    }
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+    label{
+    	 color: #007bff;
+    margin-bottom: 20px;
+    font-size: 1.0em;
+    }
+        .form-group {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .form-group .field-container {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    .form-group label {
+        width: 150px; /* Adjust as needed */
+        text-align: right;
+        margin-right: 10px;
+    }
+    .form-group input {
+        flex-grow: 1;
+        width: 200px;
+    }
+    .btns {
+        margin-top: 20px;
+    }
+    .check-result {
+        font-size: 0.8em;
+        margin-left: 10px;
+        width: 150px; /* 고정된 너비 설정 */
+    }
+     .gender-container {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        width: 400px; /* 고정된 너비 설정 */
+    }
+    .gender-container label {
+        margin-right: 10px;
+     }
+ button {
+    background-color: white;
+    text-align: center;
+    color: black;
+    padding: 10px 20px;
+    margin-left: 20px;
+    border: 2px solid black;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 900;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+button:hover {
+    background-color: black;
+    color: white;
+}
+</style>
 </head>
 <body>
-	
+	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 	
 	
 	<div class="content">
 		<br> <br>
 		<div class="innerOuter">
-			<h2>마이페이지</h2>
+			<h2>회원 정보 수정</h2>
 			<br>
-			<!-- updateMember() 메소드를 이용하여 처리하기 
-				 성공했을땐 정보수정 성공! 메세지와 함께 마이페이지로 돌아오기 (변경된정보로)
-				 실패했을땐 에러페이지로 이동 정보수정 실패! 메세지와 함께 
-				 성별도 체크 되어있도록 처리
-			-->
-			<form action="update.me" method="post">
+			
+			<form action="mypage.me" method="post" enctype="multipart/form-data">
+				
 				<div class="form-group">
 					<label for="enrollUserId">&nbsp; ID</label>
-					<input type="text" id="enrollUserId" name="userId" class="form-control" value="${loginUser.userId }" readonly> <br>
+					<input type="text" id="enrollUserId" name="userId" class="form-control" value="${loginUser.userId}" readonly> <br>
 					
 					<label for="userName">&nbsp; NAME</label>
-					<input type="text" id="userName" name="userName" class="form-control" value="${loginUser.userName }"> <br>
+					<input type="text" id="userName" name="userName" class="form-control" value="${loginUser.userName}"> <br>
 					
 					<label for="email"> &nbsp; EMAIL</label>
-					<input type="email" id="email" name="email" class="form-control" value="${loginUser.email }"> <br>
+					<input type="email" id="email" name="email" class="form-control" value="${loginUser.email}"> <br>
 					
 					<label for="age"> &nbsp; AGE</label>
-					<input type="number" id="age" name="age" class="form-control" value="${loginUser.age }"> <br>
+					<input type="number" id="age" name="age" class="form-control" value="${loginUser.age}"> <br>
 					
 					<label for="phone"> &nbsp; PHONE</label>
-					<input type="tel" id="phone" name="phone" class="form-control" placeholder="(-)없이 입력" value="${loginUser.phone }"> <br>
+					<input type="tel" id="phone" name="phone" class="form-control" placeholder="(-)없이 입력" value="${loginUser.phone}"> <br>
 					
-					<label for="address"> &nbsp; ADDRESS</label>
-					<input type="text" id="address" name="address" class="form-control" value="${loginUser.address }"> <br>
-					
-					<label for=""> &nbsp; GENDER</label> &nbsp;&nbsp;
+					<label for="gender"> &nbsp; GENDER</label> &nbsp;&nbsp;
 					<input type="radio" id="male" value="M" name="gender">
 					<label for="male">남자</label> &nbsp;&nbsp;
 					<input type="radio" id="female" value="F" name="gender">
 					<label for="female">여자</label> &nbsp;&nbsp;
+					
+					<table border="1" align="center">
+						<thead>
+							<tr>프로필 사진</tr>
+						</thead>
+						<tbody>
+							<tr> 
+								<input type="file" id="reprofile" name="reprofile" class="form-control" accept=".png, .jpeg, .jpg, .gif, .img, .bmg"> 
+								<th>현재 나의 프로필</th> 
+								<td>
+								<img src="${loginUser.myProfile}" download="${loginUser.profile}" onerror="this.src='resources/uploadFiles/noprofile.jpg'" width="150" height="150">${loginUser.profile}</a>
+								</td>
+								<input type="hidden" name="profile" value="${loginUser.profile}">
+								<input type="hidden" name="myProfile" value="${loginUser.myProfile}">	
+							</tr>
+						</tbody>
+					</table>
+					
 				</div>
 				<div class="btns" align="center">
 					<button type="submit" class="btn btn-primary">정보수정</button>
 					<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">회원탈퇴</button>
 				</div>
+				
 			</form>
 		</div>
 	</div>
 	
 	<script>
-		//남자 또는 여자 radio 체크 되어있도록 작업하기
-		
 		$(function(){
-			//필수입력 사항이 아니라 값이 없을 수도 있음
 			var gender = "${loginUser.gender}";
-			
-			//있으면 해당 데이터와 일치하는 radio 선택시키기 
-			
-			if(gender != ""){//값이 없을땐 ""로 처리되니 없는지 확인하기 
+			if(gender != ""){
 				$("input[value=${loginUser.gender}]").attr("checked",true);
 			}
 			
@@ -115,5 +197,6 @@
 			</div>
 		</div>
 	</div>
+	<%@ include file="../common/footer.jsp" %>
 </body>
 </html>

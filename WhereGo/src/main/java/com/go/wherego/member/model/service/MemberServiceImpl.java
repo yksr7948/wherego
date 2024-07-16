@@ -1,5 +1,7 @@
 package com.go.wherego.member.model.service;
 
+import java.util.ArrayList;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.go.wherego.member.model.dao.MemberDao;
 import com.go.wherego.member.model.vo.Member;
 import com.go.wherego.member.model.vo.MemberAuth;
+import com.go.wherego.trip.model.vo.Trip;
 
 
 
@@ -122,9 +125,15 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.checkEmail(sqlSession,checkEmail);
 	}
 
+	@Override
+	public int pushProfile(Member m) {
+		return memberDao.pushProfile(sqlSession,m);
+	}
 
-
-
+	@Override
+	public ArrayList<Trip> selectFavor(String userId){	
+		return memberDao.selectFavor(sqlSession, userId);
+	}
 	
 	
 	

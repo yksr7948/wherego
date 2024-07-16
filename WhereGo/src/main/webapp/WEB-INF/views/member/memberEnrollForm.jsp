@@ -135,6 +135,8 @@ button:hover {
                     <label for="phone">&nbsp; PHONE</label>
                     <input type="tel" id="phone" name="phone" class="form-control" placeholder="(-)없이 입력">
                 </div>
+                
+                
                <div class="gender-container field-container">
                     <label for="">GENDER</label>
                     <label for="male">남자</label>
@@ -142,6 +144,8 @@ button:hover {
                     <label for="female">여자</label>
                     <input type="radio" id="female" value="F" name="gender">
                 </div>
+                
+                
             </div>
             <div class="btns" align="center">
                 <button type="submit" disabled>회원가입</button>

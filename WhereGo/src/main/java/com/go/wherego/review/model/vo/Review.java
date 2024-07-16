@@ -6,7 +6,8 @@ import lombok.*;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor 
+@NoArgsConstructor
+@Builder
 public class Review {
 	private int boardNo;
 	private String boardTitle;
@@ -17,4 +18,6 @@ public class Review {
 	private Date boardDate;
 	private String status;
 	private String boardImg;
+	
+	private ArrayList<ReviewReply> rList;
 }

@@ -33,6 +33,8 @@
 		    ,ENROLL_DATE
 		    ,MODIFY_DATE
 		    ,STATUS
+		    ,PROFILE
+		    ,MYPROFILE
 		FROM MEMBER
 		WHERE USER_ID = #{userId}
 <!-- 	암호화 작업 후 조회할땐 아이디만 가지고 조회하기  
@@ -190,12 +192,32 @@
 		WHERE EMAIL = #{checkEmail}
 	</select>
 	
+	<update id="pushProfile" parameterType="Member">
+	UPDATE MEMBER
+	SET	PROFILE=#{profile},
+		MYPROFILE=#{myProfile},
+		USER_NICKNAME=#{userNickname}
+	WHERE USER_ID=#{userId}
+	</update>
 	
+	<resultMap type="Trip" id="tripResultSet">
+		<result column="CONTENT_ID" property="contentId" />
+		<result column="CONTENT_TYPE_ID" property="contentTypeId" />
+		<result column="TITLE" property="title" />
+		<result column="ADDR1" property="addr1" />
+		<result column="ADDR2" property="addr2" />
+		<result column="ZIP_CODE" property="zipCode" />
+		<result column="AREA_CODE" property="areaCode" />
+		<result column="FIRST_IMAGE2" property="firstImage2" />
+		<result column="FIRST_IMAGE" property="firstImage1" />
+	</resultMap>
 	
-	
-	
-	
-	
-	
+	<select id="selectFavor" resultMap="tripResultSet">
+		<![CDATA[SELECT T.CONTENT_ID,FIRST_IMAGE2,TITLE, ADDR1
+		FROM TRIP T
+		JOIN LIKES L ON (T.CONTENT_ID=L.CONTENT_ID)
+		WHERE ROWNUM <=]]>5 AND L.USER_ID=#{userId}
+		ORDER BY L.LIKE_NO DESC
+	</select>
 	
 </mapper>
