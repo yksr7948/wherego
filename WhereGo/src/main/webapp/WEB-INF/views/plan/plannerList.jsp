@@ -143,7 +143,16 @@
 	        		<c:otherwise>
         				<c:forEach items="${plannerList}" var="planner" varStatus="status">
 				            <div class="planner-item">
-				                <img src="${planList[status.index].firstImage }" alt="">
+				            
+				            	<!-- 플래너 번호에 맞는 이미지 가져오기 -->
+				            	<c:set var="firstImage" value="" />
+				                <c:forEach items="${planList}" var="plan" varStatus="planStatus">
+							            <c:if test="${plan.plannerNo == planner.plannerNo && empty firstImage}">
+							            	<c:set var="firstImage" value="${plan.firstImage}" />
+							            </c:if>
+						        </c:forEach>
+						       
+						        <img src="${firstImage}" alt="">
 				                <div class="planner-info">
 				                    <p style="font-size: 24px; font-weight: 900;">${planner.title }</p>
 				                    <p>${planner.description }</p>

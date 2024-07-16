@@ -297,10 +297,10 @@
                         map.setZoom(map.getZoom() - 1);
                     }
                 } else {
-                	alertify.alert('<img src="resources/img/removebg-preview.png" style="width: 30px;">',"응답을 찾을 수 없습니다");
+                	alertify.alert('<img src="resources/img/removebg-preview.png" style="width: 30px;">',"해당 키워드를 가진 관광지가 없습니다.");
                 }
             } catch (e) {
-            	alertify.alert('<img src="resources/img/removebg-preview.png" style="width: 30px;">',"JSON 데이터 분석 오류: " + e);
+
             }
         } else {
         	alertify.alert('<img src="resources/img/removebg-preview.png" style="width: 30px;">',"관광 데이터가 없습니다");

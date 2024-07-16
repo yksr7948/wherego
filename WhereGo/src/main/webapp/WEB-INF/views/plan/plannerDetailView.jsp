@@ -218,17 +218,14 @@ font{
 
         var legend = document.getElementById('legend');
 
-        // 모든 경로를 지도에 표시
         Object.keys(groupedData).forEach(function(day) {
-            var color = colorList[colorIndex % colorList.length];  // 색깔을 순환하여 사용
+            var color = colorList[colorIndex % colorList.length];
             colorIndex++;
             
-            // 마커를 지도에 표시
             groupedData[day].markers.forEach(function(marker) {
                 marker.setMap(map);
             });
 
-            // 경로를 지도에 표시
             var polyline = new naver.maps.Polyline({
                 map: map,
                 path: groupedData[day].path,
@@ -238,7 +235,6 @@ font{
             });
             polylines.push(polyline);
 
-            // 범례에 추가
             var legendItem = document.createElement('div');
             legendItem.innerHTML = '<span style="background-color:' + color + ';"></span> ' + day;
             legend.appendChild(legendItem);
